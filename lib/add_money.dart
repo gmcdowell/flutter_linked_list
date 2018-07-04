@@ -14,9 +14,6 @@ class AddMoneyPageState extends State<AddMoneyPage>
   WalletStore store;
 
   final _formKey = GlobalKey<FormState>();
-  // TextEditingController _denominationFieldController;
-  // TextEditingController _qtyFieldController;
-
   String _denomination;
   String _qty;
 
@@ -26,9 +23,14 @@ class AddMoneyPageState extends State<AddMoneyPage>
     store = listenToStore(walletStoreToken);
   }
 
-  void _onSubmit() {
-    print(_denomination);
-    print(_qty);
+  void _onSubmit(BuildContext context) {
+    _formKey.currentState.save();
+    
+    addMoneyAction.call(
+        Money(denomination: double.parse(_denomination), qty: int.parse(_qty)));
+
+    _denomination = _qty = null;
+    Navigator.pop(context);
   }
 
   @override
@@ -45,10 +47,8 @@ class AddMoneyPageState extends State<AddMoneyPage>
             TextFormField(
               // controller: _denominationFieldController,
               initialValue: 5.toString(),
-              onSaved: (val) {
-                print(val);
-                _denomination = val;
-              },
+
+              onSaved: (val) => _denomination = val,
               decoration: InputDecoration(
                 // border: InputBorder.none,
                 hintText: 'Denomination',
@@ -57,10 +57,7 @@ class AddMoneyPageState extends State<AddMoneyPage>
             TextFormField(
               // controller: _qtyFieldController,
               initialValue: 1.toString(),
-              onSaved: (val) {
-                print(val);
-                _qty = val;
-              },
+              onSaved: (val) => _qty = val,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Qty',
@@ -68,7 +65,7 @@ class AddMoneyPageState extends State<AddMoneyPage>
             ),
             RaisedButton(
               color: Colors.greenAccent,
-              onPressed: () => _onSubmit(),
+              onPressed: () => _onSubmit(context),
               child: Text('Save Now'),
             ),
           ],

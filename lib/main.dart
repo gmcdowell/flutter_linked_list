@@ -40,18 +40,21 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Flux Linked List'), actions: <Widget>[
-          RaisedButton(
-            color: Colors.blueGrey,
-            onPressed: () => loadMoneyAction.call(),
-            child: Text('Load'),
-          ),
-          RaisedButton(
-            color: Colors.orangeAccent,
-            onPressed: () => Navigator.pushNamed(context, '/add'),
-            child: Text('+'),
-          ),
-        ]),
+        appBar: AppBar(
+          title: Text('Bal: \$${store.wallet.balance().toStringAsFixed(2)}'),
+          actions: <Widget>[
+            RaisedButton(
+              color: Colors.blueGrey,
+              onPressed: () => loadMoneyAction.call(),
+              child: Text('Load'),
+            ),
+            RaisedButton(
+              color: Colors.orangeAccent,
+              onPressed: () => Navigator.pushNamed(context, '/add'),
+              child: Text('+'),
+            ),
+          ],
+        ),
         body: ListView(
           children:
               store.wallet.cash.map((money) => MoneyWidget(money)).toList(),

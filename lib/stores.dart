@@ -18,13 +18,19 @@ class Wallet {
 
   void addAll(List<Money> monies) => monies.forEach((m) => this.add(m));
 
-  List get cash => _money.map((m) => m.value).toList();
+  List get cash => _money.map((m) => m.money).toList();
+
+  double balance() {
+    double total = 0.0;
+    _money.forEach((item) => total = total + item.money.balance);
+    return total;
+  }
 }
 
 class MoneyLinkedListEntry<Money>
     extends LinkedListEntry<MoneyLinkedListEntry> {
-  Money value;
-  MoneyLinkedListEntry(this.value);
+  Money money;
+  MoneyLinkedListEntry(this.money);
 }
 
 class Money {
@@ -33,9 +39,9 @@ class Money {
 
   Money({this.denomination, this.qty});
 
-  Money.fromJson(Map json)
-      : denomination = double.parse(json['denomination']),
-        qty = json['qty'];
+  Money.fromMap(Map payload)
+      : denomination = double.parse(payload['denomination']),
+        qty = payload['qty'];
 
   double get balance => this.denomination * qty;
 }
@@ -50,7 +56,7 @@ class BankAPI {
 
     http.Response resp = await client.get('/money');
     List data = json.decode(resp.body);
-    return data.map((e) => Money.fromJson(e)).toList();
+    return data.map((e) => Money.fromMap(e)).toList();
   }
 }
 
@@ -61,11 +67,14 @@ class WalletStore extends Store {
 
   WalletStore() {
     triggerOnAction(loadMoneyAction, (nothing) async {
-      print('action trigger called');
       _wallet.clear();
 
       List<Money> bankBalance = await bank.getMoney();
       _wallet.addAll(bankBalance);
+    });
+
+    triggerOnAction(addMoneyAction, (money) async {
+      _wallet.add(money);
     });
   }
 
@@ -73,4 +82,5 @@ class WalletStore extends Store {
 }
 
 final Action loadMoneyAction = Action();
+final Action addMoneyAction = Action<Money>();
 final StoreToken walletStoreToken = StoreToken(WalletStore());
