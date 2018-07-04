@@ -1,0 +1,26 @@
+[
+  {
+    "denomination": "10.00",
+    "qty": 10
+  },
+  {
+    "denomination": "5.00",
+    "qty": 10
+  },
+  {
+    "denomination": "1.00",
+    "qty": 10
+  },
+  {
+    "denomination": "00.50",
+    "qty": 10
+  },
+  {
+    "denomination": "00.20",
+    "qty": 10
+  },
+  {
+    "denomination": "0.10",
+    "qty": 10
+  }
+]
