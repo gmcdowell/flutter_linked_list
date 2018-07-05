@@ -33,7 +33,7 @@ class MoneyLinkedListEntry<Money>
   MoneyLinkedListEntry(this.money);
 
   // TODO : figure out how to access the 'wrapped' element
-  // String get deonomination => money.denomination
+  // String get balance => money.balance; // curious as to why this is reporting Object and not declared type???
 }
 
 class Money {
