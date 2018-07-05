@@ -31,6 +31,9 @@ class MoneyLinkedListEntry<Money>
     extends LinkedListEntry<MoneyLinkedListEntry> {
   Money money;
   MoneyLinkedListEntry(this.money);
+
+  // TODO : figure out how to access the 'wrapped' element
+  // String get deonomination => money.denomination
 }
 
 class Money {
