@@ -18,7 +18,8 @@ class Wallet {
 
   void addAll(List<Money> monies) => monies.forEach((m) => this.add(m));
 
-  List get cash => _money.map((m) => m.money).toList();
+  // List<Money> get cash => _money.map((e) => e.money).toList();
+  List<MoneyLinkedListEntry> get contents => _money.toList();
 
   double balance() {
     double total = 0.0;
@@ -27,13 +28,12 @@ class Wallet {
   }
 }
 
-class MoneyLinkedListEntry<Money>
+class MoneyLinkedListEntry
     extends LinkedListEntry<MoneyLinkedListEntry> {
   Money money;
   MoneyLinkedListEntry(this.money);
 
-  // TODO : figure out how to access the 'wrapped' element
-  // String get balance => money.balance; // curious as to why this is reporting Object and not declared type???
+  String get currency => 'NZD';
 }
 
 class Money {

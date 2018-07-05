@@ -57,14 +57,17 @@ class _MyHomePageState extends State<MyHomePage>
         ),
         body: ListView(
           children:
-              store.wallet.cash.map((money) => MoneyWidget(money)).toList(),
+              store.wallet.contents.map((item) => MoneyWidget(item)).toList(),
         ));
   }
 }
 
 class MoneyWidget extends StatelessWidget {
-  MoneyWidget(this.money);
-  final Money money;
+  final MoneyLinkedListEntry item;
+
+  MoneyWidget(this.item);
+
+  Money get money => item.money;
 
   @override
   Widget build(BuildContext context) {
@@ -80,17 +83,17 @@ class MoneyWidget extends StatelessWidget {
           children: <Widget>[
             Expanded(
                 child: ListTile(
-              subtitle: Text('x ${money.qty.toString()}'),
-              leading: CircleAvatar(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.amber,
-                child: Text(
-                  '\$${money.denomination.toStringAsFixed(1)}',
-                  textScaleFactor: 0.75,
-                ),
-              ),
-              title: Text('\$${money.balance.toStringAsFixed(2)}'),
-            ))
+                    subtitle: Text('x ${money.qty.toString()}'),
+                    leading: CircleAvatar(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.amber,
+                      child: Text(
+                        '\$${money.denomination.toStringAsFixed(1)}',
+                        textScaleFactor: 0.75,
+                      ),
+                    ),
+                    title: Text('\$${money.balance.toStringAsFixed(2)}'),
+                    trailing: Text(item.currency)))
           ],
         ),
       ),
